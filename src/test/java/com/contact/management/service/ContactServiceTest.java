@@ -60,4 +60,32 @@ public class ContactServiceTest {
 		assertEquals(contactDto, result);
 	}
 
+	@Test
+	public void testGetContactById() {
+		// Arrange
+		Integer id = 1;
+		ContactEntity contactEntity = new ContactEntity();
+		ContactDto contactDto = new ContactDto();
+		when(contactRepository.findById(id)).thenReturn(Optional.of(contactEntity));
+		when(contactConverter.convertToDTO(contactEntity)).thenReturn(contactDto);
+
+		// Act
+		ContactDto result = contactService.getContactById(id);
+
+		// Assert
+		verify(contactRepository).findById(id);
+		verify(contactConverter).convertToDTO(contactEntity);
+		assertEquals(contactDto, result);
+	}
+
+	@Test(expected = ContactNotFoundException.class)
+	public void testGetContactByIdNotFound() {
+		// Arrange
+		Integer id = 1;
+		when(contactRepository.findById(id)).thenReturn(Optional.empty());
+
+		// Act
+		contactService.getContactById(id);
+	}
+
 }

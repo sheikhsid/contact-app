@@ -27,4 +27,10 @@ public class ContactService {
         return contactConverter.convertToDTO(savedEntity);
     }
 
+    public ContactDto getContactById(Integer id) {
+        ContactEntity contactEntity = contactRepository.findById(id)
+            .orElseThrow(() -> new ContactNotFoundException("Contact not found with id: " + id));
+        return contactConverter.convertToDTO(contactEntity);
+    }
+
 }
