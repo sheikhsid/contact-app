@@ -33,4 +33,11 @@ public class ContactService {
         return contactConverter.convertToDTO(contactEntity);
     }
 
+    public List<ContactDto> getAllContacts() {
+        List<ContactEntity> contactEntities = contactRepository.findAll();
+        return contactEntities.stream()
+            .map(contactConverter::convertToDTO)
+            .collect(Collectors.toList());
+    }
+
 }

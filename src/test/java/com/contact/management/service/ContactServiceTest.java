@@ -88,4 +88,23 @@ public class ContactServiceTest {
 		contactService.getContactById(id);
 	}
 
+	@Test
+	public void testGetAllContacts() {
+		// Arrange
+		List<ContactEntity> contactEntities = new ArrayList<>();
+		contactEntities.add(new ContactEntity());
+		List<ContactDto> contactDtos = new ArrayList<>();
+		contactDtos.add(new ContactDto());
+		when(contactRepository.findAll()).thenReturn(contactEntities);
+		when(contactConverter.convertToDTO(any(ContactEntity.class))).thenReturn(new ContactDto());
+
+		// Act
+		List<ContactDto> result = contactService.getAllContacts();
+
+		// Assert
+		verify(contactRepository).findAll();
+		verify(contactConverter, times(contactEntities.size())).convertToDTO(any(ContactEntity.class));
+		assertEquals(contactDtos.size(), result.size());
+	}
+
 }
