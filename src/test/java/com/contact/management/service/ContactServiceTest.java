@@ -107,4 +107,16 @@ public class ContactServiceTest {
 		assertEquals(contactDtos.size(), result.size());
 	}
 
+	@Test
+	public void testDeleteContactById() {
+		// Arrange
+		Integer id = 1;
+
+		// Act
+		contactService.deleteContactById(id);
+
+		// Assert
+		verify(contactRepository).deleteById(id);
+	}
+
 }

@@ -40,4 +40,9 @@ public class ContactService {
             .collect(Collectors.toList());
     }
 
+    public void deleteContactById(Integer id) {
+        contactRepository.deleteById(id);
+    }
+
+
 }
