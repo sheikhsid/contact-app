@@ -23,4 +23,10 @@ public class ContactController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedContact);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ContactDto> getContactById(@PathVariable Integer id) {
+        ContactDto contact = contactService.getContactById(id);
+        return ResponseEntity.ok(contact);
+    }
+
 }

@@ -60,4 +60,16 @@ public class ContactControllerTest {
 		Mockito.verify(contactService, Mockito.times(1)).saveContact(Mockito.any(ContactDto.class));
 	}
 
+	@Test
+	public void testGetContactById() throws Exception {
+		Mockito.when(contactService.getContactById(Mockito.anyInt())).thenReturn(testContact);
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/contacts/{id}", testContact.getId()))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.id").value(testContact.getId()))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.name").value(testContact.getName()))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.company").value(testContact.getCompany()))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.number").value(testContact.getNumber()));
+		Mockito.verify(contactService, Mockito.times(1)).getContactById(Mockito.anyInt());
+	}
+
 }
