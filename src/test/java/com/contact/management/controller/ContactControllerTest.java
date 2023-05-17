@@ -72,4 +72,18 @@ public class ContactControllerTest {
 		Mockito.verify(contactService, Mockito.times(1)).getContactById(Mockito.anyInt());
 	}
 
+	@Test
+	public void testGetAllContacts() throws Exception {
+		List<ContactDto> contacts = new ArrayList<>();
+		contacts.add(testContact);
+		Mockito.when(contactService.getAllContacts()).thenReturn(contacts);
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/contacts")).andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)))
+				.andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(testContact.getId()))
+				.andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value(testContact.getName()))
+				.andExpect(MockMvcResultMatchers.jsonPath("$[0].company").value(testContact.getCompany()))
+				.andExpect(MockMvcResultMatchers.jsonPath("$[0].number").value(testContact.getNumber()));
+		Mockito.verify(contactService, Mockito.times(1)).getAllContacts();
+	}
+
 }

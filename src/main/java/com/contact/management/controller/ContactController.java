@@ -29,4 +29,10 @@ public class ContactController {
         return ResponseEntity.ok(contact);
     }
 
+    @GetMapping
+    public ResponseEntity<List<ContactDto>> getAllContacts() {
+        List<ContactDto> contacts = contactService.getAllContacts();
+        return ResponseEntity.ok(contacts);
+    }
+
 }
