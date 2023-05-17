@@ -86,4 +86,10 @@ public class ContactControllerTest {
 		Mockito.verify(contactService, Mockito.times(1)).getAllContacts();
 	}
 
+	@Test
+	public void testDeleteContactById() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/contacts/{id}", testContact.getId()))
+				.andExpect(MockMvcResultMatchers.status().isNoContent());
+		Mockito.verify(contactService, Mockito.times(1)).deleteContactById(Mockito.anyInt());
+	}
 }

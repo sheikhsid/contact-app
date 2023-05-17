@@ -35,4 +35,10 @@ public class ContactController {
         return ResponseEntity.ok(contacts);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteContactById(@PathVariable Integer id) {
+        contactService.deleteContactById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
