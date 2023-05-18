@@ -2,6 +2,8 @@ package com.contact.management.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +11,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -32,7 +36,7 @@ public class ContactControllerIntegrationTest {
     public void setUp() {
         // create a test ContactDto object
         contactDto = new ContactDto();
-        contactDto.setName("Saad");
+        contactDto.setName("Sheikh");
         contactDto.setCompany("SD");
         contactDto.setNumber(1234567890);
 
@@ -50,7 +54,7 @@ public class ContactControllerIntegrationTest {
     public void testSaveContact() {
         // create a new ContactDto object
         ContactDto newContact = new ContactDto();
-        newContact.setName("Sheikh");
+        newContact.setName("Saad");
         newContact.setCompany("SD");
         newContact.setNumber(1234567890);
 
@@ -71,4 +75,5 @@ public class ContactControllerIntegrationTest {
         // delete the new ContactDto from the database
         contactService.deleteContactById(savedContact.getId());
     }
+
 }
