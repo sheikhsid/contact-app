@@ -50,4 +50,30 @@ public class ContactControllerIntegrationTest {
         contactService.deleteContactById(contactDto.getId());
     }
 
+    @Test
+    public void testSaveContact() {
+        // create a new ContactDto object
+        ContactDto newContact = new ContactDto();
+        newContact.setName("Saad");
+        newContact.setCompany("SD");
+        newContact.setNumber(1234567890);
+
+        // send a POST request to the "/api/v1/contacts" endpoint with the new ContactDto as the request body
+        ResponseEntity<ContactDto> response = restTemplate.postForEntity("/api/v1/contacts", newContact, ContactDto.class);
+
+        // assert that the response status is "201 Created"
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+
+        // assert that the response body is not null and contains the expected data
+        ContactDto savedContact = response.getBody();
+        assertThat(savedContact).isNotNull();
+        assertThat(savedContact.getId()).isNotNull();
+        assertThat(savedContact.getName()).isEqualTo(newContact.getName());
+        assertThat(savedContact.getCompany()).isEqualTo(newContact.getCompany());
+        assertThat(savedContact.getNumber()).isEqualTo(newContact.getNumber());
+
+        // delete the new ContactDto from the database
+        contactService.deleteContactById(savedContact.getId());
+    }
+
 }
