@@ -74,4 +74,21 @@ public class ContactControllerTestIT {
 		contactService.deleteContactById(savedContact.getId());
 	}
 
+	@Test
+    public void testGetContactById() {
+        // send a GET request to the "/api/v1/contacts/{id}" endpoint with the ID of the test ContactDto
+        ResponseEntity<ContactDto> response = restTemplate.getForEntity("/api/v1/contacts/" + contactDto.getId(), ContactDto.class);
+
+        // assert that the response status is "200 OK"
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        // assert that the response body is not null and contains the expected data
+        ContactDto retrievedContact = response.getBody();
+        assertThat(retrievedContact).isNotNull();
+        assertThat(retrievedContact.getId()).isEqualTo(contactDto.getId());
+        assertThat(retrievedContact.getName()).isEqualTo(contactDto.getName());
+        assertThat(retrievedContact.getCompany()).isEqualTo(contactDto.getCompany());
+        assertThat(retrievedContact.getNumber()).isEqualTo(contactDto.getNumber());
+    }
+
 }
