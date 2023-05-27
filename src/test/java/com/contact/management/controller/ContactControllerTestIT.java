@@ -91,4 +91,32 @@ public class ContactControllerTestIT {
         assertThat(retrievedContact.getNumber()).isEqualTo(contactDto.getNumber());
     }
 
+    @Test
+    public void testGetAllContacts() {
+        // send a GET request to the "/api/v1/contacts" endpoint
+        ResponseEntity<List<ContactDto>> response = restTemplate.exchange("/api/v1/contacts", HttpMethod.GET, null, new ParameterizedTypeReference<List<ContactDto>>() {});
+
+        // assert that the response status is "200 OK"
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        // assert that the response body is not null and contains at least one ContactDto object
+        List<ContactDto> contacts = response.getBody();
+        assertThat(contacts).isNotNull();
+        assertThat(contacts.size()).isGreaterThan(0);
+    }
+
+    @Test
+    public void testDeleteContactById() {
+        // send a DELETE request to the "/api/v1/contacts/{id}" endpoint with the ID of the test ContactDto
+        ResponseEntity<Void> response = restTemplate.exchange("/api/v1/contacts/" + contactDto.getId(), HttpMethod.DELETE, null, Void.class);
+
+        // assert that the response status is "204 No Content"
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+
+        // try to retrieve the deleted ContactDto from the database
+        ContactDto deletedContact = contactService.getContactById(contactDto.getId());
+
+        // assert that the deleted ContactDto is null
+        assertThat(deletedContact).isNull();
+    }
 }
